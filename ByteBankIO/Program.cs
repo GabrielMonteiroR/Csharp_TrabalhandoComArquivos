@@ -2,7 +2,7 @@
 
 
 //1 PASSO: Definir o endereço do aruivo
-var FileAddress = "C:\\Csharp\\Csharp_TrabalhandoComArquivos\\ByteBankIO\\contas.txt";
+var FileAddress = "C:\\Users\\gmont\\OneDrive\\Desktop\\Csharp_TrabalhandoComArquivos\\ByteBankIO\\contas.txt";
 var bytesRead = -1; 
 
 //2 PASSO: Criar um FileStream e passar qual operação será utilizada
@@ -20,6 +20,9 @@ while (bytesRead != 0)
      WriteBuffer(buffer);
 
 }
+
+//Fechar o fluxo do arquivo
+fileStream.Close();
 
 //6: Criar um método para escrever o buffer, onde ele vai converter os bytes em string
 static void WriteBuffer(byte[] buffer)
