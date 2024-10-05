@@ -27,16 +27,18 @@ using (var fileStream = new FileStream(FileAddress, FileMode.Open))
         // Se bytes foram lidos, processar e escrever no console.
         if (bytesRead > 0)
         {
-            WriteBuffer(buffer);
+            WriteBuffer(buffer, bytesRead);
         }
     }
 
-    // 6º PASSO: Método responsável por converter os bytes lidos em string (usando codificação UTF-8)
-    // e exibir o conteúdo no console. Ele interpreta os dados lidos como texto.
-    static void WriteBuffer(byte[] buffer)
-    {
-        var utf8 = new UTF8Encoding();     // Definindo a codificação como UTF-8
-        var text = utf8.GetString(buffer); // Converte os bytes em string usando a codificação UTF-8
-        Console.WriteLine(text);           // Exibe o texto convertido no console
-    }
+    // O FileStream será fechado automaticamente pelo bloco using, não é necessário chamar Close manualmente.
+}
+
+// 6º PASSO: Método responsável por converter os bytes lidos em string (usando codificação UTF-8)
+// e exibir o conteúdo no console. Ele interpreta os dados lidos como texto.
+static void WriteBuffer(byte[] buffer, int readBytes)
+{
+    var utf8 = new UTF8Encoding();     // Definindo a codificação como UTF-8
+    var text = utf8.GetString(buffer, 0, readBytes); // Converte os bytes em string usando a codificação UTF-8
+    Console.WriteLine(text);           // Exibe o texto convertido no console
 }
