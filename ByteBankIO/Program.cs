@@ -1,26 +1,52 @@
-﻿partial class Program
+﻿namespace ByteBankIO
 {
-    static void Main(string[] args)
+
+    partial class Program
     {
-        var enderecoDoArquivo = "C:\\Users\\gmont\\OneDrive\\Desktop\\Csharp_TrabalhandoComArquivos\\ByteBankIO\\contas.txt";
-
-        using (var fluxoDeArquivo = new FileStream(enderecoDoArquivo, FileMode.Open))
+        static void Main(string[] args)
         {
-            var leitor = new StreamReader(fluxoDeArquivo);
-
-            // var linha = leitor.ReadLine();  le a primeira linha
-            // var text = leitor.ReadToEnd(); le o arquivo todo (de uma vez sem ser parte por parte)
-            // var numero = leitor.Read(); le o primeiro byte
-
-            //Enquanto o fluxo não chegar ao fim
-            while (!leitor.EndOfStream)
+            var enderecoDoArquivo = "contas.txt";
+            using (var fluxoDeArquivo = new FileStream(enderecoDoArquivo, FileMode.Open))
             {
-                var linha = leitor.ReadLine();
-                System.Console.WriteLine(linha);
+                var leitor = new StreamReader(fluxoDeArquivo);
+
+
+                while (!leitor.EndOfStream)
+                {
+                    var linha = leitor.ReadLine();
+                    var contaCorrente = ConverterStringParaContaCorrente(linha);
+
+                    var msg = $"Conta Corrente: {contaCorrente.Numero}" +
+                        $"\nAgência: {contaCorrente.Agencia}" +
+                        $"\nSaldo: {contaCorrente.Saldo}\n\n";
+
+                    Console.WriteLine(msg);
+
+                }
             }
+        }
+        static ContaCorrente ConverterStringParaContaCorrente(string linha)
+        {
+            // 375 4644 2483.13 Jonatan
+            var campos = linha.Split(' ');
 
+            var agencia = campos[0];
+            var numero = campos[1];
+            var saldo = campos[2].Replace('.',',');
+            var nomeTitular = campos[3];
 
-            Console.WriteLine();
+            var agenciaComInt = int.Parse(agencia);
+            var numeroComInt = int.Parse(numero);
+            var saldoComoDouble = double.Parse(saldo);
+
+            var titular = new Cliente();
+            titular.Nome = nomeTitular;
+
+            var resultado = new ContaCorrente(agenciaComInt, numeroComInt);
+            resultado.Depositar(saldoComoDouble);
+            resultado.Titular = titular;
+
+            return resultado;
         }
     }
 }
