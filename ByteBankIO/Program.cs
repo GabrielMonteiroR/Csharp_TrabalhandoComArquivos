@@ -1,35 +1,42 @@
 ﻿using System.Text;
 
-
-//1 PASSO: Definir o endereço do aruivo
+// 1º PASSO: Definir o caminho do arquivo que será lido
 var FileAddress = "C:\\Users\\gmont\\OneDrive\\Desktop\\Csharp_TrabalhandoComArquivos\\ByteBankIO\\contas.txt";
-var bytesRead = -1; 
 
-//2 PASSO: Criar um FileStream e passar qual operação será utilizada
-//o fileStream le o arquivo parte por parte sem ler o mesmo inteiro
-var fileStream = new FileStream(FileAddress, FileMode.Open);
-
-//3: Criar um buffer para armazenar os bytes lidos do arquivo
-var buffer = new byte[1024];
-
-//4: Enquanto o arquivo não terminar de ser lido
-while (bytesRead != 0)
+// O bloco using garante que o objeto FileStream seja corretamente descartado (fechado) ao final do uso,
+// mesmo que ocorra uma exceção, liberando os recursos do sistema.
+using (var fileStream = new FileStream(FileAddress, FileMode.Open))
 {
-    //5: Passar o buffer para o FileStream e ler o arquivo onde ele vai ler a partir da posição 0 até 1024 bytes lendo item por item
-     bytesRead = fileStream.Read(buffer, 0, 1024);
-     WriteBuffer(buffer);
+    var bytesRead = -1;  // Variável para armazenar a quantidade de bytes lidos em cada iteração
 
+    // 2º PASSO: O FileStream abre o arquivo para leitura e lê o arquivo em partes (chunks),
+    // em vez de carregar o arquivo inteiro na memória, o que é útil para grandes arquivos.
+
+    // 3º PASSO: Criar um buffer (array de bytes) para armazenar temporariamente os dados lidos do arquivo.
+    // O tamanho do buffer neste caso é 1024 bytes (1 KB).
+    var buffer = new byte[1024];
+
+    // 4º PASSO: O loop continua até que bytesRead seja 0, o que indica que o final do arquivo foi alcançado.
+    while (bytesRead != 0)
+    {
+        // 5º PASSO: Ler o próximo bloco de bytes do arquivo e armazená-lo no buffer.
+        // O método Read tenta ler até 1024 bytes, começando da posição 0 do buffer.
+        // O valor retornado é o número real de bytes lidos (pode ser menor que 1024, especialmente na última leitura).
+        bytesRead = fileStream.Read(buffer, 0, 1024);
+        
+        // Se bytes foram lidos, processar e escrever no console.
+        if (bytesRead > 0)
+        {
+            WriteBuffer(buffer);
+        }
+    }
+
+    // 6º PASSO: Método responsável por converter os bytes lidos em string (usando codificação UTF-8)
+    // e exibir o conteúdo no console. Ele interpreta os dados lidos como texto.
+    static void WriteBuffer(byte[] buffer)
+    {
+        var utf8 = new UTF8Encoding();     // Definindo a codificação como UTF-8
+        var text = utf8.GetString(buffer); // Converte os bytes em string usando a codificação UTF-8
+        Console.WriteLine(text);           // Exibe o texto convertido no console
+    }
 }
-
-//Fechar o fluxo do arquivo
-fileStream.Close();
-
-//6: Criar um método para escrever o buffer, onde ele vai converter os bytes em string
-static void WriteBuffer(byte[] buffer)
-{
-    var utf8 = new UTF8Encoding();
-    var text = utf8.GetString(buffer);
-    Console.WriteLine(text);
-
-}
-
