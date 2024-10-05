@@ -8,12 +8,19 @@
         {
             var leitor = new StreamReader(fluxoDeArquivo);
 
-            //pega a primeira linha do arquivo
-            var linha  = leitor.ReadLine();
-            System.Console.WriteLine(linha);
+            // var linha = leitor.ReadLine();  le a primeira linha
+            // var text = leitor.ReadToEnd(); le o arquivo todo (de uma vez sem ser parte por parte)
+            // var numero = leitor.Read(); le o primeiro byte
+
+            //Enquanto o fluxo não chegar ao fim
+            while (!leitor.EndOfStream)
+            {
+                var linha = leitor.ReadLine();
+                System.Console.WriteLine(linha);
+            }
+
+
+            Console.WriteLine();
         }
-
-
-        Console.WriteLine();
     }
 }
