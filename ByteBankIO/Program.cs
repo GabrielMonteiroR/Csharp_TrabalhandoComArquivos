@@ -18,7 +18,8 @@
 
                     var msg = $"Conta Corrente: {contaCorrente.Numero}" +
                         $"\nAgência: {contaCorrente.Agencia}" +
-                        $"\nSaldo: {contaCorrente.Saldo}\n\n";
+                        $"\nSaldo: {contaCorrente.Saldo}\n\n" +
+                        $"\nTitular: {contaCorrente.Titular.Nome}";
 
                     Console.WriteLine(msg);
 
@@ -28,7 +29,7 @@
         static ContaCorrente ConverterStringParaContaCorrente(string linha)
         {
             // 375 4644 2483.13 Jonatan
-            var campos = linha.Split(' ');
+            var campos = linha.Split(',');
 
             var agencia = campos[0];
             var numero = campos[1];
