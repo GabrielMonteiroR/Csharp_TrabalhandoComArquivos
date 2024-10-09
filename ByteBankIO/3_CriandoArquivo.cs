@@ -23,7 +23,7 @@ partial class Program
     //OPÇÃO 2
     static void CriarArquivoComWriter()
     {
-        var caminhoNovoArquivo = "contasExportadas.csv";
+        var caminhoNovoArquivo = "testaEscrita.txt";
 
         using (var fluxoDoArquivo = new FileStream(caminhoNovoArquivo, FileMode.Create))
         using (var escritor = new StreamWriter(fluxoDoArquivo))
