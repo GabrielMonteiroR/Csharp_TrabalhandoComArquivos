@@ -1,15 +1,10 @@
-﻿using System.Runtime.ExceptionServices;
-using System.Text;
+﻿using System.Text;
 
 partial class Program
 {
-
-    //OPÇÃO 1
     static void CriarArquivo()
     {
-        //Local onde será guardado o novo arquivo
         var caminhoNovoArquivo = "contasExportadas.csv";
-
         using (var fluxoDoArquivo = new FileStream(caminhoNovoArquivo, FileMode.Create))
         {
             var contaComoString = "456,78945,4785.40,Gustavo Santos";
@@ -20,10 +15,9 @@ partial class Program
         }
     }
 
-    //OPÇÃO 2
     static void CriarArquivoComWriter()
     {
-        var caminhoNovoArquivo = "testaEscrita.txt";
+        var caminhoNovoArquivo = "contasExportadas.csv";
 
         using (var fluxoDoArquivo = new FileStream(caminhoNovoArquivo, FileMode.Create))
         using (var escritor = new StreamWriter(fluxoDoArquivo))
@@ -39,12 +33,11 @@ partial class Program
         using (var fluxoDoArquivo = new FileStream(caminhoNovoArquivo, FileMode.Create))
         using (var escritor = new StreamWriter(fluxoDoArquivo))
         {
-            for (int i = 0; i < 100000; i++)
+            for (var i = 0; i < 1000000; i++)
             {
                 escritor.WriteLine($"Linha {i}");
-                escritor.Flush(); //Despeja o buffer para o Stream
-                
-                Console.WriteLine($"Linha {i} foi escrita no arquivo. Tecle Enter...");
+                escritor.Flush(); // Despeja o buffer para o Stream!
+                Console.WriteLine($"Linha {i} foi escrita no arquivo. Tecle enter...");
                 Console.ReadLine();
             }
         }
